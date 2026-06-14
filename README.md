@@ -1,8 +1,8 @@
 # YoPing
 
-YoPing 是一个面向 Windows 的图形化多目标 Ping 监控工具，基于经典的 vmPing 改造而来。它保留了多主机并行监控、TCP 端口探测、路由跟踪、状态历史等能力，并加入了中文界面、现代主题、增强日志、Windows Ping 专用参数、指定出口网卡等功能。
+YoPing 是一个面向 Windows 的图形化多目标 Ping 监控工具。它支持多主机并行监控、TCP 端口探测、路由跟踪、状态历史、中文界面、现代主题、增强日志、Windows Ping 专用参数和指定出口网卡。
 
-YoPing is a Windows desktop utility for visually monitoring multiple hosts with Ping. It is based on the classic vmPing project and extends it with a Chinese UI, modern themes, improved logging, Windows-specific Ping options, source-interface selection, and a refreshed application icon.
+YoPing is a Windows desktop utility for visually monitoring multiple hosts with Ping. It supports parallel host monitoring, TCP port checks, traceroute, status history, a Chinese UI, modern themes, improved logging, Windows-specific Ping options, source-interface selection, and a refreshed application icon.
 
 ![YoPing icon](assets/yoping-golden-network-icon-final.png)
 
@@ -148,6 +148,6 @@ The executable is generated at:
 vmPing\bin\Debug\YoPing.exe
 ```
 
-## License and attribution
+## License
 
-YoPing is based on the original vmPing project. See `LICENSE` for license details.
+See `LICENSE` for license details. The MIT license notice is retained in the repository as required by the license text.
