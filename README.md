@@ -103,6 +103,8 @@ vmPing.sln
 vmPing\bin\Debug\YoPing.exe
 ```
 
+Release 版可以单文件运行，直接双击 `YoPing.exe` 即可启动。中文界面资源已内置到主程序，不需要额外复制 `zh-CN` 目录。
+
 ## Project overview
 
 YoPing is a visual multi-host Ping monitor for Windows. It can watch many hosts at once, color-code their status, log output, run TCP port checks, trace routes, and expose several Windows-specific Ping options through a desktop UI.
@@ -147,6 +149,8 @@ The executable is generated at:
 ```text
 vmPing\bin\Debug\YoPing.exe
 ```
+
+The release build can run as a single executable. Double-click `YoPing.exe` to start it; Chinese UI resources are embedded in the main executable, so the `zh-CN` satellite folder is not required for release use.
 
 ## License
 
