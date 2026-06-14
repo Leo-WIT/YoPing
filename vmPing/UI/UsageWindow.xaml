@@ -1,0 +1,126 @@
+﻿<Window x:Class="vmPing.UI.UsageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:vmPing.UI"
+        mc:Ignorable="d"
+        Title="YoPing"
+        Width="600"
+        ResizeMode="NoResize"
+        SizeToContent="Height"
+        Background="{DynamicResource Theme.Brush.WindowBackground}"
+        WindowStartupLocation="CenterScreen">
+    
+    <Grid Margin="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="20,10,20,35">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="FontFamily" Value="Consolas"/>
+                    <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="TextWrapping" Value="Wrap"/>
+                </Style>
+                <Style TargetType="{x:Type TextBlock}" x:Key="Arg" BasedOn="{StaticResource {x:Type TextBlock}}">
+                    <Setter Property="Width" Value="130"/>
+                    <Setter Property="DockPanel.Dock" Value="Left"/>
+                </Style>
+                <Style TargetType="{x:Type TextBlock}" x:Key="Desc" BasedOn="{StaticResource {x:Type TextBlock}}">
+                    <Setter Property="Foreground" Value="#223"/>
+                </Style>
+            </StackPanel.Resources>
+            <StackPanel Orientation="Horizontal">
+                <Image Source="/vmPing.ico"
+                       VerticalAlignment="Top"
+                       Width="32"
+                       Height="32"/>
+                <StackPanel Margin="10,0,0,0">
+                    <TextBlock Text="YoPing"
+                               Foreground="{DynamicResource Theme.Brush.Text}"
+                               VerticalAlignment="Center"
+                               FontSize="15"
+                               FontFamily="Arial"
+                               FontWeight="SemiBold"/>
+                    <TextBlock x:Name="AppVersion"
+                               d:Text="1.0.0"
+                               FontSize="13"
+                               Opacity="0.5"/>
+                </StackPanel>
+            </StackPanel>
+            <TextBlock Margin="0,20,0,0"
+                       Text="命令行用法："
+                       FontSize="14"
+                       FontWeight="SemiBold"/>
+            <TextBlock Text="YoPing [参数] [主机名...] [文件...]"/>
+            <TextBlock Margin="0,20,0,0"
+                       Text="参数："
+                       FontSize="14"
+                       FontWeight="SemiBold"/>
+            <DockPanel>
+                <TextBlock Style="{StaticResource Arg}"
+                           Text="-i &lt;间隔>"/>
+                <StackPanel>
+                    <TextBlock Style="{StaticResource Desc}"
+                               Text="指定每次 Ping 之间的间隔，单位为秒。"/>
+                    <TextBlock Style="{StaticResource Desc}"
+                               Text="有效范围：1 到 86400（1 秒到 24 小时）。"/>
+                </StackPanel>
+            </DockPanel>
+            <DockPanel Margin="0,5,0,0">
+                <TextBlock Style="{StaticResource Arg}"
+                           Text="-w &lt;超时>"/>
+                <StackPanel>
+                    <TextBlock Style="{StaticResource Desc}"
+                               Text="设置每次 Ping 请求的超时时间，单位为秒。"/>
+                    <TextBlock Style="{StaticResource Desc}"
+                               Text="有效范围：1 到 60 秒。"/>
+                </StackPanel>
+            </DockPanel>
+            <DockPanel Margin="0,5,0,0">
+                <TextBlock Style="{StaticResource Arg}"
+                           Text="-minimized"/>
+                <TextBlock Style="{StaticResource Desc}"
+                           Text="以最小化状态启动应用。"/>
+            </DockPanel>
+            <DockPanel Margin="0,5,0,0">
+                <TextBlock Style="{StaticResource Arg}"
+                           Text="&lt;主机名>"/>
+                <StackPanel>
+                    <TextBlock Style="{StaticResource Desc}"
+                               Text="要 Ping 的主机名或 IP 地址。"/>
+                    <TextBlock Style="{StaticResource Desc}"
+                               Text="可以提供多个主机名。"/>
+                </StackPanel>
+            </DockPanel>
+            <DockPanel Margin="0,5,0,0">
+                <TextBlock Style="{StaticResource Arg}"
+                           Text="&lt;文件>"/>
+                <TextBlock Style="{StaticResource Desc}"
+                           Text="包含主机名或 IP 地址的文本文件路径。如果路径包含空格，请用引号括起来。可以提供多个文件。"/>
+            </DockPanel>
+            <TextBlock Margin="0,20,0,0"
+                       Text="示例："
+                       FontSize="14"
+                       FontWeight="SemiBold"/>
+            <TextBlock Text="YoPing.exe -i 5 -w 2 192.168.0.1 172.16.50.1 10.2.0.32"/>
+            <TextBlock Text="YoPing.exe &quot;c:\documents\servers.txt&quot;"/>
+            <TextBlock Text="YoPing.exe -minimized 192.168.5.20 web.example.com"/>
+
+        </StackPanel>
+
+        <!-- Buttons -->
+        <Border Grid.Row="1" Background="#f0f0f0" BorderBrush="#dfdfdf" BorderThickness="0,1,0,0">
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+                <Button Style="{StaticResource ButtonStandardStyle}"
+                        Width="100"
+                        IsCancel="True"
+                        IsDefault="True"
+                        Content="确定"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

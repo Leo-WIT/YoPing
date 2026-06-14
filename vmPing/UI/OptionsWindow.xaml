@@ -1,0 +1,995 @@
+﻿<Window x:Class="vmPing.UI.OptionsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="设置"
+        UseLayoutRounding="True"
+        Height="660"
+        Width="760"
+        MinHeight="500"
+        MinWidth="680"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize"
+        Background="{DynamicResource Theme.Brush.ContainerDisabled}"
+        SourceInitialized="Window_SourceInitialized">
+
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Regular"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Foreground" Value="{DynamicResource Theme.Brush.Text}"/>
+        </Style>
+
+        <Style TargetType="{x:Type TextBlock}" x:Key="OptionSubHeaderTextStyle">
+            <Setter Property="Margin" Value="0,0,0,4"/>
+            <Setter Property="Foreground" Value="{DynamicResource Theme.Brush.InfoText}"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TabControl TabStripPlacement="Left" HorizontalContentAlignment="Left">
+            <!-- Tab: General -->
+            <TabItem Header="常规" Name="GeneralTab">
+                <DockPanel Margin="20,0" LastChildFill="False">
+                    <TextBlock DockPanel.Dock="Top"
+                               Text="探测设置"
+                               Style="{StaticResource OptionHeaderTextStyle}"/>
+                    <!-- Ping interval -->
+                    <StackPanel DockPanel.Dock="Top"
+                                Orientation="Horizontal"
+                                Margin="0,10,0,0">
+                        <TextBlock Text="发包间隔："
+                                   Width="110"/>
+                        <TextBox Name="PingInterval"
+                                 PreviewTextInput="NumericTextbox_PreviewTextInput"
+                                 Width="80"
+                                 MaxLength="5"/>
+                        <ComboBox Name="PingIntervalUnits" Width="100" Margin="10,0,0,0" Visibility="Collapsed">
+                            <ComboBoxItem Content="秒" IsSelected="True"/>
+                            <ComboBoxItem Content="分钟"/>
+                            <ComboBoxItem Content="小时"/>
+                        </ComboBox>
+                        <TextBlock Text="毫秒（最低 200）" Margin="10,0,0,0"/>
+                    </StackPanel>
+
+                    <!-- Ping timeout -->
+                    <StackPanel DockPanel.Dock="Top"
+                                Orientation="Horizontal"
+                                Margin="0,10,0,0">
+                        <TextBlock Text="Ping 超时："
+                                   Width="110"/>
+                        <TextBox Name="PingTimeout"
+                                 PreviewTextInput="NumericTextbox_PreviewTextInput"
+                                 Width="60"
+                                 MaxLength="2"/>
+                        <TextBlock Text="秒"
+                                   Margin="10,0,0,0"/>
+                    </StackPanel>
+
+                    <Separator DockPanel.Dock="Top" Height="1" Background="{DynamicResource Theme.Brush.Split}" Margin="0,20,0,5"/>
+
+                    <TextBlock DockPanel.Dock="Top"
+                               Text="执行规则"
+                               Margin="0,10,0,4"
+                               Style="{StaticResource OptionSubHeaderTextStyle}"/>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,6,0,0">
+                        <RadioButton Name="StopNeverOption"
+                                     GroupName="StopMode"
+                                     Content="持续 Ping"
+                                     Width="110"
+                                     IsChecked="True"/>
+                        <TextBlock Text="默认持续运行，直到手动停止。" Foreground="{DynamicResource Theme.Brush.TextMuted}"/>
+                    </StackPanel>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,6,0,0">
+                        <RadioButton Name="StopByCountOption"
+                                     GroupName="StopMode"
+                                     Content="按次数停止"
+                                     Width="110"
+                                     />
+                        <TextBox Name="PingCountLimit"
+                                 PreviewTextInput="NumericTextbox_PreviewTextInput"
+                                 Width="70"
+                                 MaxLength="6"/>
+                        <TextBlock Text="次" Margin="10,0,0,0"/>
+                    </StackPanel>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,6,0,0">
+                        <RadioButton Name="StopByDurationOption"
+                                     GroupName="StopMode"
+                                     Content="按时长停止"
+                                     Width="110"/>
+                        <TextBox Name="RunDurationSeconds"
+                                 PreviewTextInput="NumericTextbox_PreviewTextInput"
+                                 Width="70"
+                                 MaxLength="6"/>
+                        <TextBlock Text="秒" Margin="10,0,0,0"/>
+                    </StackPanel>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,10,0,0">
+                        <TextBlock Text="最大并发："
+                                   Width="110"/>
+                        <TextBox Name="MaxConcurrentTasks"
+                                 PreviewTextInput="NumericTextbox_PreviewTextInput"
+                                 Width="70"
+                                 MaxLength="3"/>
+                        <TextBlock Text="个任务（1-256）" Margin="10,0,0,0"/>
+                    </StackPanel>
+
+                    <!-- Alert threshold -->
+                    <StackPanel DockPanel.Dock="Top"
+                                Orientation="Horizontal"
+                                Margin="0,10,0,0">
+                        <TextBlock Text="提醒阈值："
+                                   Width="110"/>
+                        <TextBox Name="AlertThreshold"
+                                 PreviewTextInput="NumericTextbox_PreviewTextInput"
+                                 Width="60"
+                                 MaxLength="2"/>
+                        <TextBlock Text="次丢包"
+                                   Margin="10,0,0,0"/>
+                    </StackPanel>
+
+                    <!-- Startup header -->
+                    <TextBlock DockPanel.Dock="Top"
+                               Text="启动"
+                               Margin="0,25,0,10"
+                               Style="{StaticResource OptionHeaderTextStyle}"/>
+                    <TextBlock DockPanel.Dock="Top"
+                               Text="选择 YoPing 的启动方式："
+                               Margin="0,0,0,5"/>
+                    <!-- Startup mode selection -->
+                    <ComboBox DockPanel.Dock="Top"
+                              Name="StartupMode"
+                              Width="200">
+                        <ComboBoxItem Content="空白（默认）" Tag="Standard" IsSelected="True"/>
+                        <ComboBoxItem Content="列表输入窗口" Tag="Standard"/>
+                        <ComboBoxItem Content="加载收藏" Tag="Favorite"/>
+                    </ComboBox>
+                    <!-- Initial probe / column count -->
+                    <StackPanel DockPanel.Dock="Top"
+                                Orientation="Horizontal"
+                                Margin="0,13,0,0">
+                        <!-- Style to control visibility based on selected startup mode -->
+                        <StackPanel.Style>
+                            <Style>
+                                <Setter Property="StackPanel.Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=StartupMode, Path=SelectedItem.Tag}" Value="Standard">
+                                        <Setter Property="StackPanel.Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                        <!-- Probe count -->
+                        <StackPanel Margin="0,0,30,0">
+                            <TextBlock Text="探测数量："
+                                       Margin="0,0,0,4"/>
+                            <TextBox Name="InitialProbeCount"
+                                     PreviewTextInput="NumericTextbox_PreviewTextInput"
+                                     Width="60"
+                                     HorizontalAlignment="Left"
+                                     MaxLength="2"/>
+                        </StackPanel>
+                        <!-- Column count-->
+                        <StackPanel>
+                            <TextBlock Text="列数："
+                                       Margin="0,0,0,4"/>
+                            <TextBox Name="InitialColumnCount"
+                                     PreviewTextInput="NumericTextbox_PreviewTextInput"
+                                     Width="60"
+                                     HorizontalAlignment="Left"
+                                     MaxLength="2"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <!-- Select a favorite -->
+                    <StackPanel DockPanel.Dock="Top"
+                                Orientation="Horizontal"
+                                Margin="0,13,0,0">
+                        <!-- Style to control visibility based on selected startup mode -->
+                        <StackPanel.Style>
+                            <Style>
+                                <Setter Property="StackPanel.Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=StartupMode, Path=SelectedItem.Tag}" Value="Favorite">
+                                        <Setter Property="StackPanel.Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                        <!-- Favorite selection -->
+                        <StackPanel Margin="0,0,35,0">
+                            <TextBlock Text="选择收藏："
+                                       Margin="0,0,0,4"/>
+                            <ComboBox DockPanel.Dock="Top"
+                                      Name="InitialFavorite"
+                                      Width="250">
+                            </ComboBox>
+                        </StackPanel>
+                    </StackPanel>
+                </DockPanel>
+            </TabItem>
+
+            <!-- Tab: Advanced -->
+            <TabItem Header="高级" Name="AdvancedTab">
+                <DockPanel Margin="20,0" LastChildFill="False">
+
+                    <!-- Header -->
+                    <TextBlock DockPanel.Dock="Top"
+                               Text="高级 ICMP 设置"
+                               Style="{StaticResource OptionHeaderTextStyle}"/>
+
+                    <!-- TTL -->
+                    <StackPanel DockPanel.Dock="Top"
+                                Orientation="Horizontal"
+                                Margin="0,10,0,0">
+                        <TextBlock Text="生存时间："
+                                   Width="110"/>
+                        <TextBox Name="TTL"
+                                 PreviewTextInput="NumericTextbox_PreviewTextInput"
+                                 Width="80"
+                                 MaxLength="3"/>
+                        <TextBlock Text="跳"
+                                   Margin="10,0,0,0"/>
+                    </StackPanel>
+
+                    <!-- Separator -->
+                    <Separator DockPanel.Dock="Top" Height="1" Background="{DynamicResource Theme.Brush.Split}" Margin="0,20"/>
+
+                    <!-- Packet size -->
+                    <StackPanel DockPanel.Dock="Top"
+                                Orientation="Horizontal"
+                                Margin="0">
+                        <RadioButton GroupName="IcmpData"
+                                     Content="固定包大小"
+                                     Name="PacketSizeOption"
+                                     Checked="PacketSizeOption_Checked"
+                                     IsChecked="True"
+                                     Width="160"/>
+                        <TextBox Name="PacketSize"
+                                 PreviewTextInput="NumericTextbox_PreviewTextInput"
+                                 TextChanged="PacketData_TextChanged"
+                                 Width="80"
+                                 MaxLength="5"
+                                 Visibility="{Binding IsChecked, ElementName=PacketSizeOption, Converter={StaticResource BooleanToHiddenVisibilityConverter}}"/>
+                        <TextBlock Text="字节" Margin="10,0,0,0"
+                                   Visibility="{Binding IsChecked, ElementName=PacketSizeOption, Converter={StaticResource BooleanToHiddenVisibilityConverter}}"/>
+                    </StackPanel>
+
+                    <!-- Random packet size -->
+                    <StackPanel DockPanel.Dock="Top"
+                                Orientation="Horizontal"
+                                Margin="0,7,0,0">
+                        <RadioButton GroupName="IcmpData"
+                                     Content="随机包大小"
+                                     Name="RandomPacketSizeOption"
+                                     Checked="PacketSizeOption_Checked"
+                                     Width="160"/>
+                        <TextBox Name="RandomPacketMin"
+                                 PreviewTextInput="NumericTextbox_PreviewTextInput"
+                                 TextChanged="PacketData_TextChanged"
+                                 Width="70"
+                                 MaxLength="4"
+                                 Visibility="{Binding IsChecked, ElementName=RandomPacketSizeOption, Converter={StaticResource BooleanToHiddenVisibilityConverter}}"/>
+                        <TextBlock Text="到" Margin="8,0"
+                                   Visibility="{Binding IsChecked, ElementName=RandomPacketSizeOption, Converter={StaticResource BooleanToHiddenVisibilityConverter}}"/>
+                        <TextBox Name="RandomPacketMax"
+                                 PreviewTextInput="NumericTextbox_PreviewTextInput"
+                                 TextChanged="PacketData_TextChanged"
+                                 Width="70"
+                                 MaxLength="4"
+                                 Visibility="{Binding IsChecked, ElementName=RandomPacketSizeOption, Converter={StaticResource BooleanToHiddenVisibilityConverter}}"/>
+                        <TextBlock Text="字节（最高 1400）" Margin="10,0,0,0"
+                                   Visibility="{Binding IsChecked, ElementName=RandomPacketSizeOption, Converter={StaticResource BooleanToHiddenVisibilityConverter}}"/>
+                    </StackPanel>
+
+                    <!-- Packet data -->
+                    <DockPanel DockPanel.Dock="Top"
+                                Margin="0,7,0,0">
+                        <RadioButton GroupName="IcmpData"
+                                     Content="自定义包数据"
+                                     Name="UseCustomPacketOption"
+                                     Checked="UseCustomPacketOption_Checked"
+                                     DockPanel.Dock="Left"
+                                     VerticalAlignment="Top"
+                                     Width="160"/>
+                        <TextBox Name="PacketData"
+                                 TextChanged="PacketData_TextChanged"
+                                 Height="80"
+                                 DockPanel.Dock="Right"
+                                 VerticalContentAlignment="Top"
+                                 TextWrapping="Wrap"
+                                 AcceptsReturn="True"
+                                 VerticalScrollBarVisibility="Auto"
+                                 MaxLength="65500"
+                                 Visibility="{Binding IsChecked, ElementName=UseCustomPacketOption, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    </DockPanel>
+
+                    <!-- Total packet size -->
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Left" Margin="20,15,0,0">
+                        <TextBlock Foreground="{DynamicResource Theme.Brush.InfoText}"
+                                   Text="总包大小："/>
+                        <TextBlock Foreground="#dc322f"
+                                   Name="Bytes"
+                                   Margin="6,0,4,0"
+                                   Text="64"/>
+                        <TextBlock Foreground="#dc322f"
+                                   Text="字节"/>
+                    </StackPanel>
+
+                    <!-- Separator -->
+                    <Separator DockPanel.Dock="Top" Height="1" Background="{DynamicResource Theme.Brush.Split}" Margin="0,20"/>
+
+                    <!-- Fragment / Don't fragment -->
+                    <DockPanel DockPanel.Dock="Top" LastChildFill="False">
+                        <CheckBox DockPanel.Dock="Left"
+                                  Name="DontFragment"
+                                  Content="不分片"/>
+                        <Label DockPanel.Dock="Left" Style="{StaticResource LabelToolTip}">
+                            <TextBlock>
+                                不分片会要求路由器在数据包过大时直接丢弃，而不是进行分片。
+                                <LineBreak/>
+                                <LineBreak/>
+                                你可以启用该选项并调整包大小，用于判断当前链路可承载的最大传输单元（MTU）。
+                            </TextBlock>
+                        </Label>
+                    </DockPanel>
+
+                    <Separator DockPanel.Dock="Top" Height="1" Background="{DynamicResource Theme.Brush.Split}" Margin="0,20"/>
+
+                    <TextBlock DockPanel.Dock="Top"
+                               Text="Windows Ping 专用"
+                               Style="{StaticResource OptionSubHeaderTextStyle}"/>
+
+                    <DockPanel DockPanel.Dock="Top" LastChildFill="False" Margin="0,8,0,0">
+                        <CheckBox DockPanel.Dock="Left"
+                                  Name="ReverseResolveAddress"
+                                  Content="反向解析 IP 对应主机名（-a）"/>
+                        <Label DockPanel.Dock="Left" Style="{StaticResource LabelToolTip}">
+                            <TextBlock>等同于 ping -a IP，用于排查内网 IP 对应的主机身份。</TextBlock>
+                        </Label>
+                    </DockPanel>
+
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,8,0,0">
+                        <CheckBox Name="RecordRouteEnabled"
+                                  Content="记录路由节点（-r）"
+                                  Width="160"/>
+                        <TextBox Name="RecordRouteHopCount"
+                                 PreviewTextInput="NumericTextbox_PreviewTextInput"
+                                 Width="50"
+                                 MaxLength="1"/>
+                        <TextBlock Text="跳（1-9）" Margin="10,0,0,0"/>
+                    </StackPanel>
+
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,8,0,0">
+                        <TextBlock Text="出口网卡："
+                                   Width="160"/>
+                        <ComboBox Name="SourceInterface"
+                                  Width="360"
+                                  SelectionChanged="SourceInterface_SelectionChanged"/>
+                    </StackPanel>
+
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,8,0,0">
+                        <TextBlock Text="源地址（-S）："
+                                   Width="160"/>
+                        <TextBox Name="SourceAddress"
+                                 Width="220"/>
+                    </StackPanel>
+
+                    <DockPanel DockPanel.Dock="Top" Margin="0,8,0,0">
+                        <TextBlock DockPanel.Dock="Left"
+                                   Text="松散路由（-j）："
+                                   Width="160"/>
+                        <TextBox Name="LooseSourceRoute"
+                                 DockPanel.Dock="Right"/>
+                    </DockPanel>
+                    <TextBlock DockPanel.Dock="Top"
+                               Margin="160,4,0,0"
+                               Foreground="{DynamicResource Theme.Brush.TextMuted}"
+                               Text="多个节点用逗号分隔，例如：10.0.0.1,10.0.1.1。启用上述选项时会调用系统 ping.exe。"/>
+                </DockPanel>
+            </TabItem>
+            
+            <!-- Tab: Popup Alerts -->
+            <TabItem Header="通知" Name="PopupAlertsTab">
+                <DockPanel Margin="20,0" LastChildFill="False">
+
+                    <!-- Header -->
+                    <DockPanel DockPanel.Dock="Top" LastChildFill="False">
+                        <TextBlock DockPanel.Dock="Left"
+                                   Text="弹窗提醒"
+                                   Style="{StaticResource OptionHeaderTextStyle}"/>
+                        <Label DockPanel.Dock="Left" Style="{StaticResource LabelToolTip}">
+                            <TextBlock>
+                                Popup alerts appear in the lower right corner of your screen when a host you are monitoring changes status (down or up).
+                                <LineBreak/>
+                                <LineBreak/>
+                                You can always show popup alerts, show only when YoPing is minimized, or disable entirely.
+                            </TextBlock>
+                        </Label>
+                    </DockPanel>
+
+
+                    <!-- Popup notification option radio button group -->
+                    <RadioButton DockPanel.Dock="Top"
+                                 GroupName="PopupAlerts"
+                                 Content="禁用"
+                                 Name="PopupsDisabledOption"
+                                 Margin="0,15,0,0"/>
+                    <RadioButton DockPanel.Dock="Top"
+                                 GroupName="PopupAlerts"
+                                 Content="最小化时显示"
+                                 Name="PopupsMinimizedOption"
+                                 Margin="0,6"/>
+                    <RadioButton DockPanel.Dock="Top"
+                                 GroupName="PopupAlerts"
+                                 Content="始终显示"
+                                 Name="PopupsAlwaysOption"
+                                 IsChecked="True"/>
+
+                    <!-- Auto-dismiss enabled checkbox -->
+                    <DockPanel DockPanel.Dock="Top" LastChildFill="False" Margin="0,20,0,5">
+                        <CheckBox DockPanel.Dock="Left"
+                                  Name="IsAutoDismissEnabled"
+                                  Content="自动关闭通知"
+                                  IsChecked="True"/>
+                        <Label DockPanel.Dock="Left" Style="{StaticResource LabelToolTip}">
+                            Automatically close popup alerts after the specified number of seconds.
+                        </Label>
+                    </DockPanel>
+
+                    <!-- Auto-dismiss interval textbox -->
+                    <StackPanel DockPanel.Dock="Top"
+                                Visibility="{Binding IsChecked, ElementName=IsAutoDismissEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                Margin="50,0,0,0"
+                                Orientation="Horizontal">
+                        <TextBox Name="AutoDismissInterval"
+                                 PreviewTextInput="NumericTextbox_PreviewTextInput"
+                                 Width="60"
+                                 MaxLength="2"/>
+                        <TextBlock Text="秒"
+                                   Margin="10,0,0,0"/>
+                    </StackPanel>
+                </DockPanel>
+            </TabItem>
+
+
+            <!-- Tab: Audio Alerts -->
+            <TabItem Header="声音" Name="AudioAlertTab">
+                <DockPanel Margin="20,0">
+
+                    <!-- Header -->
+                    <TextBlock DockPanel.Dock="Top"
+                               Text="声音提醒"
+                               Style="{StaticResource OptionHeaderTextStyle}"/>
+
+                    <!-- Audio Alert Down: checkbox / tooltip -->
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,15,0,0">
+                        <CheckBox Name="IsAudioDownAlertEnabled"
+                                  Click="IsAudioDownAlertEnabled_Click"
+                                  Content="启用声音提醒：主机断开"
+                                  IsChecked="True"/>
+                        <Label Style="{StaticResource LabelToolTip}">
+                            主机离线时播放声音提醒。
+                        </Label>
+                    </StackPanel>
+
+                    <!-- Audio Alert Down: Filepath / play button / browse button -->
+                    <Grid DockPanel.Dock="Top"
+                          Margin="30,10,0,0"
+                          VerticalAlignment="Top"
+                          Visibility="{Binding IsChecked, ElementName=IsAudioDownAlertEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel>
+                            <TextBlock Text="音频文件路径"/>
+                            <TextBox Name="AudioDownFilePath"
+                                     Margin="0,4,0,8"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <!-- Browse button -->
+                                <Button Style="{StaticResource ButtonStandardStyle}"
+                                        Click="AudioDownBrowse_Click"
+                                        Width="85"
+                                        Content="浏览..."/>
+                                <!-- Play button -->
+                                <Grid>
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Text.Length, ElementName=AudioDownFilePath}" Value="0">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                    <Button Style="{StaticResource ButtonStandardStyle}"
+                                            Click="AudioDownPlay_Click"
+                                            Width="85"
+                                            Margin="10,0,0,0"
+                                            Content="测试">
+                                    </Button>
+                                </Grid>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Hidden separator -->
+                    <Separator DockPanel.Dock="Top" Height="1" Background="Transparent" Margin="0,20,0,0"
+                               Visibility="{Binding IsChecked, ElementName=IsAudioDownAlertEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                    <!-- Audio Alert Up: checkbox / tooltip -->
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,15,0,0">
+                        <CheckBox Name="IsAudioUpAlertEnabled"
+                                  Click="IsAudioUpAlertEnabled_Click"
+                                  Content="启用声音提醒：主机恢复"
+                                  IsChecked="True"/>
+                        <Label Style="{StaticResource LabelToolTip}">
+                            主机恢复在线时播放声音提醒。
+                        </Label>
+                    </StackPanel>
+
+                    <!-- Audio Alert Down: Filepath / play button / browse button -->
+                    <Grid DockPanel.Dock="Top"
+                          Margin="30,10,0,0"
+                          VerticalAlignment="Top"
+                          Visibility="{Binding IsChecked, ElementName=IsAudioUpAlertEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel>
+                            <TextBlock Text="音频文件路径"/>
+                            <TextBox Name="AudioUpFilePath"
+                                     Margin="0,4,0,8"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <!-- Browse button -->
+                                <Button Style="{StaticResource ButtonStandardStyle}"
+                                        Click="AudioUpBrowse_Click"
+                                        Width="85"
+                                        Content="浏览..."/>
+                                <!-- Play button -->
+                                <Grid>
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Text.Length, ElementName=AudioUpFilePath}" Value="0">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                    <Button Style="{StaticResource ButtonStandardStyle}"
+                                            Click="AudioUpPlay_Click"
+                                            Width="85"
+                                            Margin="10,0,0,0"
+                                            Content="测试">
+                                    </Button>
+                                </Grid>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </DockPanel>
+            </TabItem>
+
+            <!-- Tab: Logging -->
+            <TabItem Header="日志" Name="LogOutputTab">
+                <DockPanel Margin="20,0">
+
+                    <!-- Header -->
+                    <TextBlock DockPanel.Dock="Top"
+                               Text="日志输出"
+                               Style="{StaticResource OptionHeaderTextStyle}"/>
+
+                    <!-- Log all ping output -->
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,15,0,0">
+                        <CheckBox Name="IsLogOutputEnabled"
+                                  Content="将 Ping 输出写入纯文本文件"
+                                  Checked="LogOutputSetting_Changed"
+                                  Unchecked="LogOutputSetting_Changed"
+                                  IsChecked="True"/>
+                        <Label Style="{StaticResource LabelToolTip}">
+                            开启后，实时 Ping 输出会写入本地文本文件。
+                            选择基础目录后，YoPing 会为每个目标生成独立日志文件（目标地址.txt）。
+                        </Label>
+                    </StackPanel>
+                    <Grid DockPanel.Dock="Top"
+                          Margin="30,10,0,0"
+                          VerticalAlignment="Top"
+                          Visibility="{Binding IsChecked, ElementName=IsLogOutputEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel>
+                            <TextBlock Text="日志路径（基础目录）"/>
+                            <TextBox Name="LogPath"
+                                     TextChanged="LogOutputSetting_Changed"
+                                     Margin="0,4,0,8"/>
+                            <Button Style="{StaticResource ButtonStandardStyle}"
+                                    Click="BrowseLogPath_Click"
+                                    Width="85"
+                                    Content="浏览..."
+                                    HorizontalAlignment="Left"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Hidden separator -->
+                    <Separator DockPanel.Dock="Top" Height="1" Background="Transparent" Margin="0,20,0,0"
+                               Visibility="{Binding IsChecked, ElementName=IsLogOutputEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                    <!-- Log status changes -->
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,15,0,0">
+                        <CheckBox Name="IsLogStatusChangesEnabled"
+                                  Content="将状态变化记录到文本文件"
+                                  Checked="LogOutputSetting_Changed"
+                                  Unchecked="LogOutputSetting_Changed"
+                                  IsChecked="True"/>
+                        <Label Style="{StaticResource LabelToolTip}">
+                            开启后，主机离线、恢复、超时等状态变化会单独写入文本文件。
+                            日志使用制表符分隔，便于导入 Excel 或数据库分析。
+                        </Label>
+                    </StackPanel>
+                    <Grid DockPanel.Dock="Top"
+                          Margin="30,10,0,0"
+                          VerticalAlignment="Top"
+                          Visibility="{Binding IsChecked, ElementName=IsLogStatusChangesEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel>
+                            <TextBlock Text="日志路径"/>
+                            <TextBox Name="LogStatusChangesPath"
+                                     TextChanged="LogOutputSetting_Changed"
+                                     Margin="0,4,0,8"/>
+                            <Button Style="{StaticResource ButtonStandardStyle}"
+                                    Click="BrowseLogStatusChangesPath_Click"
+                                    Width="85"
+                                    Content="浏览..."
+                                    HorizontalAlignment="Left"/>
+                        </StackPanel>
+                    </Grid>
+                </DockPanel>
+            </TabItem>
+
+            <!-- Tab: Display -->
+            <TabItem Header="显示" Name="DisplayTab">
+                <DockPanel Margin="20,0" LastChildFill="False">
+
+                    <!-- Header -->
+                    <TextBlock DockPanel.Dock="Top"
+                               Text="显示设置"
+                               Style="{StaticResource OptionHeaderTextStyle}"/>
+
+                    <!-- Theme -->
+                    <DockPanel DockPanel.Dock="Top" LastChildFill="False" Margin="0,15,0,0">
+                        <TextBlock DockPanel.Dock="Top"
+                                   Width="80"
+                                   VerticalAlignment="Center"
+                                   Text="主题"/>
+                        <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+                            <RadioButton Name="LightThemeOption"
+                                         GroupName="ThemeMode"
+                                         Content="浅色"
+                                         Margin="0,0,16,0"/>
+                            <RadioButton Name="DarkThemeOption"
+                                         GroupName="ThemeMode"
+                                         Content="暗黑"/>
+                        </StackPanel>
+                        <Label DockPanel.Dock="Left" Style="{StaticResource LabelToolTip}">
+                            按 Ant Design darkAlgorithm 风格切换暗黑主题。
+                        </Label>
+                    </DockPanel>
+
+
+                    <!-- Always on top -->
+                    <DockPanel DockPanel.Dock="Top" LastChildFill="False" Margin="0,15,0,0">
+                        <CheckBox DockPanel.Dock="Left"
+                                  Name="IsAlwaysOnTopEnabled"
+                                  Content="总在最前"/>
+                        <Label DockPanel.Dock="Left" Style="{StaticResource LabelToolTip}">
+                            让 YoPing 始终显示在其他窗口上方。
+                        </Label>
+                    </DockPanel>
+                    <!-- Minimze to tray -->
+                    <DockPanel DockPanel.Dock="Top" LastChildFill="False" Margin="0,15,0,0">
+                        <CheckBox DockPanel.Dock="Left"
+                                  Name="IsMinimizeToTrayEnabled"
+                                  Content="最小化到托盘"/>
+                        <Label DockPanel.Dock="Left" Style="{StaticResource LabelToolTip}">
+                            <TextBlock>
+                                最小化 YoPing 时，将图标放入系统托盘。
+                                <LineBreak/>
+                                <LineBreak/>
+                                如需让托盘图标始终可见：
+                                <LineBreak/>
+                                右键 Windows 任务栏并打开“任务栏设置”。
+                                在通知区域中找到 YoPing，并设置为显示。
+                                <LineBreak/>
+                                （不同系统版本的路径可能略有不同）
+                            </TextBlock>
+                        </Label>
+                    </DockPanel>
+                    <!-- Exit to tray -->
+                    <DockPanel DockPanel.Dock="Top" LastChildFill="False" Margin="0,15,0,0">
+                        <CheckBox DockPanel.Dock="Left"
+                                  Name="IsExitToTrayEnabled"
+                                  Content="关闭到托盘"/>
+                        <Label DockPanel.Dock="Left" Style="{StaticResource LabelToolTip}">
+                            <TextBlock>
+                                关闭 YoPing 时将最小化到系统托盘，而不是直接退出。需要退出时可右键托盘图标。
+                                <LineBreak/>
+                                <LineBreak/>
+                                如需让托盘图标始终可见：
+                                <LineBreak/>
+                                右键 Windows 任务栏并打开“任务栏设置”。
+                                在通知区域中找到 YoPing，并设置为显示。
+                                <LineBreak/>
+                                （不同系统版本的路径可能略有不同）
+                            </TextBlock>
+                        </Label>
+                    </DockPanel>
+                </DockPanel>
+            </TabItem>
+            
+            <!-- Tab: Management -->
+            <TabItem Header="管理" Name="ManagementTab">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <DockPanel Margin="20,0,20,20" LastChildFill="False">
+                        <TextBlock DockPanel.Dock="Top"
+                                   Text="管理"
+                                   Style="{StaticResource OptionHeaderTextStyle}"/>
+                        <TextBlock DockPanel.Dock="Top"
+                                   Text="帮助、收藏和分组功能集中放在这里，主界面只保留高频操作。"
+                                   Foreground="{DynamicResource Theme.Brush.TextMuted}"
+                                   Margin="0,4,0,18"/>
+
+                        <TextBlock DockPanel.Dock="Top"
+                                   Text="帮助"
+                                   Style="{StaticResource OptionSubHeaderTextStyle}"/>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,6,0,18">
+                            <Button Style="{StaticResource ButtonStandardStyle}"
+                                    Click="OpenHelp_Click"
+                                    Width="120"
+                                    Content="打开帮助"/>
+                        </StackPanel>
+
+                        <TextBlock DockPanel.Dock="Top"
+                                   Text="收藏"
+                                   Style="{StaticResource OptionSubHeaderTextStyle}"/>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,6,0,18">
+                            <Button Style="{StaticResource ButtonStandardStyle}"
+                                    Click="SaveFavorite_Click"
+                                    Width="120"
+                                    Content="保存收藏"/>
+                            <Button Style="{StaticResource ButtonStandardStyle}"
+                                    Click="ManageFavorites_Click"
+                                    Width="120"
+                                    Margin="10,0,0,0"
+                                    Content="管理收藏"/>
+                        </StackPanel>
+
+                        <TextBlock DockPanel.Dock="Top"
+                                   Text="分组"
+                                   Style="{StaticResource OptionSubHeaderTextStyle}"/>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,6,0,18">
+                            <Button Style="{StaticResource ButtonStandardStyle}"
+                                    Click="SaveFavorite_Click"
+                                    Width="120"
+                                    Content="创建分组"/>
+                            <Button Style="{StaticResource ButtonStandardStyle}"
+                                    Click="ManageFavorites_Click"
+                                    Width="120"
+                                    Margin="10,0,0,0"
+                                    Content="管理分组"/>
+                        </StackPanel>
+
+                        <TextBlock DockPanel.Dock="Top"
+                                   Text="地址别名"
+                                   Style="{StaticResource OptionSubHeaderTextStyle}"/>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,6,0,18">
+                            <Button Style="{StaticResource ButtonStandardStyle}"
+                                    Click="ManageAliases_Click"
+                                    Width="120"
+                                    Content="管理别名"/>
+                        </StackPanel>
+
+                        <TextBlock DockPanel.Dock="Top"
+                                   Text="应用"
+                                   Style="{StaticResource OptionSubHeaderTextStyle}"/>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,6,0,0">
+                            <Button Style="{StaticResource ButtonStandardStyle}"
+                                    Click="NewInstance_Click"
+                                    Width="120"
+                                    Content="新建窗口"/>
+                        </StackPanel>
+                    </DockPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab: Layout -->
+            <TabItem Header="颜色" Name="LayoutTab">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <DockPanel LastChildFill="False"
+                               Name="ColorsDockPanel"
+                               Margin="20,0,20,20">
+                        <DockPanel.Resources>
+                            <Style TargetType="{x:Type StackPanel}">
+                                <Setter Property="Orientation" Value="Horizontal"/>
+                                <Setter Property="Margin" Value="0,5,0,0"/>
+                                <Setter Property="DockPanel.Dock" Value="Top"/>
+                            </Style>
+                            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource HtmlTextBoxStyle}">
+                                <EventSetter Event="PreviewTextInput" Handler="HtmlColor_PreviewTextInput"/>
+                            </Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="BorderBrush" Value="{DynamicResource Theme.Brush.Border}"/>
+                                <Setter Property="BorderThickness" Value="1"/>
+                                <Setter Property="Width" Value="80"/>
+                                <Setter Property="Margin" Value="15,0,0,0"/>
+                            </Style>
+                        </DockPanel.Resources>
+
+                        <!-- Header -->
+                        <TextBlock DockPanel.Dock="Top"
+                                   Text="颜色"
+                                   Style="{StaticResource OptionHeaderTextStyle}"/>
+
+                        <!-- Probe background colors -->
+                        <TextBlock DockPanel.Dock="Top"
+                                   Text="探测背景"
+                                   Margin="0,10,0,0"
+                                   Style="{StaticResource OptionSubHeaderTextStyle}"/>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Width="150" Text="未激活"/>
+                            <TextBox Name="BackgroundColor_Probe_Inactive"/>
+                            <Border Background="{Binding ElementName=BackgroundColor_Probe_Inactive, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Width="150" Text="在线"/>
+                            <TextBox Name="BackgroundColor_Probe_Up"/>
+                            <Border Background="{Binding ElementName=BackgroundColor_Probe_Up, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Width="150" Text="离线"/>
+                            <TextBox Name="BackgroundColor_Probe_Down"/>
+                            <Border Background="{Binding ElementName=BackgroundColor_Probe_Down, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Width="150" Text="不确定"/>
+                            <TextBox Name="BackgroundColor_Probe_Indeterminate"/>
+                            <Border Background="{Binding ElementName=BackgroundColor_Probe_Indeterminate, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Width="150" Text="错误"/>
+                            <TextBox Name="BackgroundColor_Probe_Error"/>
+                            <Border Background="{Binding ElementName=BackgroundColor_Probe_Error, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
+                        </StackPanel>
+
+                        <!-- Probe foreground colors -->
+                        <Separator DockPanel.Dock="Top" Height="1" Width="20" Background="Transparent" Margin="0,20,0,0"/>
+                        <TextBlock DockPanel.Dock="Top"
+                                   Text="探测前景"
+                                   Margin="0"
+                                   Style="{StaticResource OptionSubHeaderTextStyle}"/>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Width="150" Text="未激活"/>
+                            <TextBox Name="ForegroundColor_Probe_Inactive"/>
+                            <Border Background="{Binding ElementName=ForegroundColor_Probe_Inactive, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Width="150" Text="在线"/>
+                            <TextBox Name="ForegroundColor_Probe_Up"/>
+                            <Border Background="{Binding ElementName=ForegroundColor_Probe_Up, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Width="150" Text="离线"/>
+                            <TextBox Name="ForegroundColor_Probe_Down"/>
+                            <Border Background="{Binding ElementName=ForegroundColor_Probe_Down, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Width="150" Text="不确定"/>
+                            <TextBox Name="ForegroundColor_Probe_Indeterminate"/>
+                            <Border Background="{Binding ElementName=ForegroundColor_Probe_Indeterminate, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Width="150" Text="错误"/>
+                            <TextBox Name="ForegroundColor_Probe_Error"/>
+                            <Border Background="{Binding ElementName=ForegroundColor_Probe_Error, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
+                        </StackPanel>
+
+                        <!-- Statistics foreground colors -->
+                        <Separator DockPanel.Dock="Top" Height="1" Width="20" Background="Transparent" Margin="0,20,0,0"/>
+                        <TextBlock DockPanel.Dock="Top"
+                                   Text="统计前景"
+                                   Margin="0"
+                                   Style="{StaticResource OptionSubHeaderTextStyle}"/>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Width="150" Text="未激活"/>
+                            <TextBox Name="ForegroundColor_Stats_Inactive"/>
+                            <Border Background="{Binding ElementName=ForegroundColor_Stats_Inactive, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Width="150" Text="在线"/>
+                            <TextBox Name="ForegroundColor_Stats_Up"/>
+                            <Border Background="{Binding ElementName=ForegroundColor_Stats_Up, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Width="150" Text="离线"/>
+                            <TextBox Name="ForegroundColor_Stats_Down"/>
+                            <Border Background="{Binding ElementName=ForegroundColor_Stats_Down, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Width="150" Text="不确定"/>
+                            <TextBox Name="ForegroundColor_Stats_Indeterminate"/>
+                            <Border Background="{Binding ElementName=ForegroundColor_Stats_Indeterminate, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,10">
+                            <TextBlock Width="150" Text="错误"/>
+                            <TextBox Name="ForegroundColor_Stats_Error"/>
+                            <Border Background="{Binding ElementName=ForegroundColor_Stats_Error, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
+                        </StackPanel>
+
+                        <!-- Alias foreground colors -->
+                        <Separator DockPanel.Dock="Top" Height="1" Width="20" Background="Transparent" Margin="0,20,0,0"/>
+                        <TextBlock DockPanel.Dock="Top"
+                                   Text="别名前景"
+                                   Margin="0"
+                                   Style="{StaticResource OptionSubHeaderTextStyle}"/>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Width="150" Text="未激活"/>
+                            <TextBox Name="ForegroundColor_Alias_Inactive"/>
+                            <Border Background="{Binding ElementName=ForegroundColor_Alias_Inactive, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Width="150" Text="在线"/>
+                            <TextBox Name="ForegroundColor_Alias_Up"/>
+                            <Border Background="{Binding ElementName=ForegroundColor_Alias_Up, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Width="150" Text="离线"/>
+                            <TextBox Name="ForegroundColor_Alias_Down"/>
+                            <Border Background="{Binding ElementName=ForegroundColor_Alias_Down, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Width="150" Text="不确定"/>
+                            <TextBox Name="ForegroundColor_Alias_Indeterminate"/>
+                            <Border Background="{Binding ElementName=ForegroundColor_Alias_Indeterminate, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,10">
+                            <TextBlock Width="150" Text="错误"/>
+                            <TextBox Name="ForegroundColor_Alias_Error"/>
+                            <Border Background="{Binding ElementName=ForegroundColor_Alias_Error, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
+                        </StackPanel>
+
+                        <!-- Restore defaults button -->
+                        <Grid DockPanel.Dock="Top" Margin="0,15,0,0">
+                            <Button Style="{StaticResource ButtonStandardStyle}"
+                                    Click="RestoreDefaultColors_Click"
+                                    Padding="15,5"
+                                    Content="恢复默认"
+                                    HorizontalAlignment="Left"/>
+                        </Grid>
+                    </DockPanel>
+                </ScrollViewer>
+            </TabItem>
+
+        </TabControl>
+
+
+        <!-- Button Section -->
+        <Border Grid.Row="1" BorderBrush="{DynamicResource Theme.Brush.Split}" Background="{DynamicResource Theme.Brush.ContainerDisabled}" BorderThickness="0,1,0,0">
+            <DockPanel Margin="9" HorizontalAlignment="Right">
+                <CheckBox DockPanel.Dock="Top"
+                          Name="SaveAsDefaults"
+                          Content="保存为 YoPing 默认值"
+                          FontSize="13"
+                          Foreground="{DynamicResource Theme.Brush.Text}"
+                          HorizontalAlignment="Right"/>
+                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,9,0,0" HorizontalAlignment="Right">
+                    <Button Style="{StaticResource ButtonStandardStyle}"
+                            Click="OK_Click"
+                            Margin="0,0,9,0"
+                            IsDefault="True"
+                            Width="85"
+                            Content="确定"/>
+                    <Button Style="{StaticResource ButtonStandardStyle}"
+                            IsCancel="True"
+                            Width="85"
+                            Content="取消"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+    </Grid>
+</Window>

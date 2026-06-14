@@ -1,0 +1,244 @@
+﻿<Window x:Class="vmPing.UI.HelpWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="YoPing 帮助"
+        UseLayoutRounding="True"
+        Height="620"
+        Width="860"
+        MinHeight="520"
+        MinWidth="760"
+        WindowStartupLocation="CenterScreen"
+        PreviewKeyDown="Window_PreviewKeyDown"
+        Loaded="Window_Loaded"
+        Closed="Window_Closed">
+
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="FontFamily" Value="Microsoft YaHei UI, Segoe UI, Arial" />
+            <Setter Property="FontSize" Value="15" />
+        </Style>
+        <Style TargetType="Paragraph">
+            <Setter Property="TextAlignment" Value="Left" />
+            <Setter Property="FontFamily" Value="Microsoft YaHei UI, Segoe UI, Arial" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="LineHeight" Value="24" />
+        </Style>
+        <Style x:Key="TitleText" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+            <Setter Property="FontSize" Value="30" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="#1f2937" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="HyperlinkStyle" TargetType="Hyperlink" BasedOn="{StaticResource {x:Type Hyperlink}}">
+            <Setter Property="TextDecorations" Value="None" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="Foreground" Value="#2563eb" />
+        </Style>
+        <Style x:Key="VersionText" TargetType="Paragraph" BasedOn="{StaticResource {x:Type Paragraph}}">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Foreground" Value="#6b7280" />
+            <Setter Property="Margin" Value="0,0,0,0" />
+            <Setter Property="TextAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="HeaderText" TargetType="Paragraph" BasedOn="{StaticResource {x:Type Paragraph}}">
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Margin" Value="0,34,0,4" />
+            <Setter Property="Foreground" Value="#1d4ed8" />
+            <Setter Property="FontSize" Value="25" />
+        </Style>
+        <Style x:Key="SubHeaderText" TargetType="Paragraph" BasedOn="{StaticResource {x:Type Paragraph}}">
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Margin" Value="0,18,0,2" />
+            <Setter Property="Foreground" Value="#111827" />
+            <Setter Property="FontSize" Value="16" />
+        </Style>
+        <Style x:Key="ParagraphText" TargetType="Paragraph" BasedOn="{StaticResource {x:Type Paragraph}}">
+            <Setter Property="Margin" Value="0,2,0,0" />
+            <Setter Property="Foreground" Value="#4b5563" />
+        </Style>
+        <Style TargetType="TreeViewItem">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Foreground" Value="#374151" />
+            <Setter Property="Padding" Value="10,7" />
+            <Setter Property="Margin" Value="0,2" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="{DynamicResource Theme.Brush.WindowBackground}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="178" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0"
+                Background="{DynamicResource Theme.Brush.ContainerDisabled}"
+                BorderBrush="{DynamicResource Theme.Brush.Split}"
+                BorderThickness="0,0,1,0">
+            <DockPanel LastChildFill="True">
+                <StackPanel DockPanel.Dock="Top" Margin="18,18,16,10">
+                    <TextBlock Text="YoPing"
+                               FontSize="20"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource Theme.Brush.Text}" />
+                    <TextBlock Text="帮助中心"
+                               Margin="0,3,0,0"
+                               FontSize="12"
+                               Foreground="{DynamicResource Theme.Brush.TextMuted}" />
+                </StackPanel>
+                <TreeView Name="tree"
+                          BorderThickness="0"
+                          Background="Transparent"
+                          Padding="8,6,8,12">
+                    <TreeViewItem Header="概览"
+                                  Selected="Intro_Selected" />
+                    <TreeViewItem Header="快速开始"
+                                  Selected="BasicUsage_Selected" />
+                    <TreeViewItem Header="网络工具"
+                                  Selected="ExtraFeatures_Selected" />
+                    <TreeViewItem Header="偏好设置"
+                                  Selected="Options_Selected" />
+                    <TreeViewItem Header="命令行"
+                                  Selected="CommandLineUsage_Selected" />
+                </TreeView>
+            </DockPanel>
+        </Border>
+
+        <FlowDocumentScrollViewer Name="MainDocument"
+                                  Grid.Column="1"
+                                  FocusVisualStyle="{x:Null}"
+                                  Padding="8,0,0,0"
+                                  Background="{DynamicResource Theme.Brush.WindowBackground}">
+            <FlowDocument PagePadding="34,22,34,28"
+                          ColumnWidth="720">
+                <BlockUIContainer>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,4,0,16">
+                        <Image Source="/vmPing.ico" Width="34" Height="34" Margin="0,0,12,0" />
+                        <TextBlock Style="{StaticResource TitleText}"
+                                   VerticalAlignment="Center"
+                                   Text="YoPing">
+                            <TextBlock.Effect>
+                                <DropShadowEffect ShadowDepth="3" Direction="330" Color="Black" Opacity="0.10" BlurRadius="4" />
+                            </TextBlock.Effect>
+                        </TextBlock>
+                    </StackPanel>
+                </BlockUIContainer>
+
+                <Paragraph TextAlignment="Center" Margin="0,0,0,0">
+                    <Run>项目仓库：</Run>
+                    <Hyperlink NavigateUri="https://github.com/Leo-WIT/YoPing"
+                               RequestNavigate="Hyperlink_RequestNavigate"
+                               Style="{StaticResource HyperlinkStyle}">
+                        https://github.com/Leo-WIT/YoPing
+                    </Hyperlink>
+                </Paragraph>
+
+                <Paragraph Name="Version"
+                           Style="{StaticResource VersionText}"
+                           Margin="0,4,0,0">
+                    版本：1.0
+                </Paragraph>
+                <Paragraph Name="Copyright"
+                           Style="{StaticResource VersionText}">
+                    版权 © 2026 Leo-WIT。原项目：https://github.com/R-Smith/vmPing
+                </Paragraph>
+
+                <BlockUIContainer>
+                    <Rectangle Margin="0,24,0,0" HorizontalAlignment="Stretch" Fill="{DynamicResource Theme.Brush.Split}" Height="1" />
+                </BlockUIContainer>
+                <Paragraph Name="Intro" Margin="0,12,0,0" Foreground="{DynamicResource Theme.Brush.Text}">
+                    YoPing 是一个图形化网络监控工具，可同时监控多个主机的可用性。你可以快速添加、移除或调整主机监控项，界面会随窗口大小自动排列。
+                    不同状态会以颜色区分，帮助你快速判断主机在线、离线、高延迟或异常。
+                </Paragraph>
+                <Paragraph Style="{StaticResource ParagraphText}">
+                    除了常规 ICMP Ping，YoPing 还支持 TCP 端口监控、路由跟踪、洪泛测试、状态历史、通知提醒和日志记录，适合日常网络连通性排查与轻量监控。
+                </Paragraph>
+
+                <Paragraph Name="BasicUsage" Style="{StaticResource HeaderText}">
+                    快速开始
+                </Paragraph>
+                <Paragraph Style="{StaticResource SubHeaderText}">
+                    添加并监控主机
+                </Paragraph>
+                <Paragraph Style="{StaticResource ParagraphText}">
+                    在底部输入框中输入主机名或 IP 地址，然后按 Enter 或点击 Ping。YoPing 会持续发送探测请求，直到你点击停止。
+                    响应结果会显示在上方输出区域，绿色表示可达，红色表示无响应，橙色表示发生错误。
+                </Paragraph>
+                <Paragraph Style="{StaticResource SubHeaderText}">
+                    管理监控项
+                </Paragraph>
+                <Paragraph Style="{StaticResource ParagraphText}">
+                    点击菜单栏中的“添加主机”可新增监控项，也可以使用快捷键 Alt-A。将鼠标悬停在某个监控项上时，右上角会显示关闭按钮，点击即可移除。
+                </Paragraph>
+                <Paragraph Style="{StaticResource SubHeaderText}">
+                    调整布局
+                </Paragraph>
+                <Paragraph Style="{StaticResource ParagraphText}">
+                    点击菜单栏中的“列数”，拖动滑块即可调整每行显示的监控项数量。新增主机后，YoPing 会根据当前列数自动换行。
+                </Paragraph>
+
+                <Paragraph Name="ExtraFeatures" Style="{StaticResource HeaderText}">
+                    网络工具
+                </Paragraph>
+                <Paragraph Style="{StaticResource SubHeaderText}">
+                    TCP 端口监控
+                </Paragraph>
+                <Paragraph Style="{StaticResource ParagraphText}">
+                    如果要监控指定 TCP 端口，请输入“主机名:端口”或“IP:端口”，例如 <Bold>SERVER01:80</Bold>。
+                    YoPing 会持续尝试连接该端口，并显示端口是否可连接。
+                </Paragraph>
+                <Paragraph Style="{StaticResource SubHeaderText}">
+                    路由跟踪
+                </Paragraph>
+                <Paragraph Style="{StaticResource ParagraphText}">
+                    路由跟踪用于查看到目标主机经过的网络路径，并帮助判断网络延迟或中断可能出现在哪一跳。你可以从右上角工具菜单打开，或使用 Ctrl-T。
+                </Paragraph>
+                <Paragraph Style="{StaticResource SubHeaderText}">
+                    洪泛主机
+                </Paragraph>
+                <Paragraph Style="{StaticResource ParagraphText}">
+                    洪泛主机工具会快速发送大量 ICMP 数据包，用于简单压力测试或连通性验证。为避免完全失控，它会等待收到回复后再发送下一组数据包。你可以从工具菜单打开，或使用 Ctrl-F。
+                </Paragraph>
+
+                <Paragraph Name="Options" Style="{StaticResource HeaderText}">
+                    偏好设置
+                </Paragraph>
+                <Paragraph Style="{StaticResource SubHeaderText}">
+                    探测参数
+                </Paragraph>
+                <Paragraph Style="{StaticResource ParagraphText}">
+                    “Ping 间隔”控制两次探测之间的等待时间，可使用秒、分钟或小时；“Ping 超时”控制等待单次响应的最长时间。
+                    “提醒阈值”用于决定连续丢包达到多少次后触发状态变化。
+                </Paragraph>
+                <Paragraph Style="{StaticResource SubHeaderText}">
+                    通知与声音
+                </Paragraph>
+                <Paragraph Style="{StaticResource ParagraphText}">
+                    你可以启用弹窗或声音提醒，让主机从在线变为离线、或从离线恢复时及时收到通知。
+                </Paragraph>
+                <Paragraph Style="{StaticResource SubHeaderText}">
+                    显示与日志
+                </Paragraph>
+                <Paragraph Style="{StaticResource ParagraphText}">
+                    “总在最前”会让 YoPing 窗口保持在其他窗口上方；“最小化到托盘”和“关闭到托盘”适合长期后台监控。
+                    日志功能可把 Ping 输出和状态变化保存为文本文件，便于后续排查或导入表格分析。
+                </Paragraph>
+
+                <Paragraph Name="CommandLineUsage" Style="{StaticResource HeaderText}">
+                    命令行
+                </Paragraph>
+                <Paragraph Style="{StaticResource SubHeaderText}">
+                    用法：YoPing [-i 间隔] [-w 超时] [-minimized] [&lt;目标主机&gt;...] [&lt;文件路径&gt;...]
+                </Paragraph>
+                <Paragraph Style="{StaticResource ParagraphText}">
+                    <Bold>-i</Bold> 指定 Ping 间隔，单位为秒；<Bold>-w</Bold> 指定单次请求超时，单位为秒；<Bold>-minimized</Bold> 表示启动后最小化。
+                    你可以直接传入多个主机名或 IP 地址，也可以传入包含主机列表的文本文件路径。
+                </Paragraph>
+                <Paragraph Style="{StaticResource ParagraphText}">
+                    示例：<Bold>YoPing.exe -i 5 -w 2 192.168.0.1 web.example.com</Bold>
+                </Paragraph>
+            </FlowDocument>
+        </FlowDocumentScrollViewer>
+    </Grid>
+</Window>
