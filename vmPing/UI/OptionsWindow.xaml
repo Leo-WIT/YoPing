@@ -217,6 +217,7 @@
 
             <!-- Tab: Advanced -->
             <TabItem Header="高级" Name="AdvancedTab">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <DockPanel Margin="20,0" LastChildFill="False">
 
                     <!-- Header -->
@@ -393,6 +394,7 @@
                                Foreground="{DynamicResource Theme.Brush.TextMuted}"
                                Text="多个节点用逗号分隔，例如：10.0.0.1,10.0.1.1。启用上述选项时会调用系统 ping.exe。"/>
                 </DockPanel>
+                </ScrollViewer>
             </TabItem>
             
             <!-- Tab: Popup Alerts -->
