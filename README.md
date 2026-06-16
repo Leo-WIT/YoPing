@@ -18,6 +18,7 @@ YoPing is a Windows desktop utility for visually monitoring multiple hosts with 
 - 浅色和暗黑主题，状态色采用低饱和监控配色。
 - 收藏夹、别名、状态历史和弹窗提醒。
 - 新程序图标：奶白色金毛与网络节点元素。
+- 网络工具：CIDR 计算、VLSM 规划、子网枚举、IP 地址转换。
 
 ## Windows Ping 专用能力
 
@@ -121,6 +122,7 @@ YoPing is a visual multi-host Ping monitor for Windows. It can watch many hosts 
 - Use `ping -a`, `ping -r`, `ping -S`, and `ping -j` without leaving the app.
 - Switch between light and dark themes.
 - Use favorites, aliases, popup alerts, tray behavior, and custom colors.
+- Network tools: CIDR calculator, VLSM planner, subnet enumeration, and IP address conversion.
 
 ## Windows-specific Ping features
 
