@@ -250,6 +250,7 @@ namespace vmPing.UI
             NewInstanceMenu.Command = NewInstanceCommand;
             TracerouteMenu.Command = TracerouteCommand;
             FloodHostMenu.Command = FloodHostCommand;
+            NetworkToolsMenu.Click += NetworkToolsMenu_Click;
             AddProbeMenu.Command = AddProbeCommand;
             MultiInputMenu.Command = MultiInputCommand;
             StatusHistoryMenu.Command = StatusHistoryCommand;
@@ -698,6 +699,16 @@ namespace vmPing.UI
             {
                 LoadAliases();
             }
+            Focus();
+        }
+
+        private void NetworkToolsMenu_Click(object sender, RoutedEventArgs e)
+        {
+            var wnd = new NetworkToolsWindow
+            {
+                Owner = this
+            };
+            wnd.Show();
             Focus();
         }
 

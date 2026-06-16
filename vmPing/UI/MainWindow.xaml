@@ -138,6 +138,10 @@
             <MenuItem Header="{x:Static resource:Strings.Menu_FloodHost}" x:Name="FloodHostMenu" InputGestureText="Ctrl-F">
             </MenuItem>
 
+            <!-- Menu: Network Tools -->
+            <MenuItem Header="网络工具" x:Name="NetworkToolsMenu" InputGestureText="Ctrl-N">
+            </MenuItem>
+
             <!-- Hidden legacy menu containers used by existing command/state code. -->
             <MenuItem Header="{x:Static resource:Strings.Menu_PopupAlerts}" Visibility="Collapsed">
                 <MenuItem Name="PopupNever"

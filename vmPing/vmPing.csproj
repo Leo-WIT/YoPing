@@ -60,6 +60,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -80,6 +81,7 @@
     </ApplicationDefinition>
     <Compile Include="Classes\Alias.cs" />
     <Compile Include="Classes\ApplicationOptions.cs" />
+    <Compile Include="Classes\CidrCalculator.cs" />
     <Compile Include="Classes\CommandLine.cs" />
     <Compile Include="Classes\Configuration.cs" />
     <Compile Include="Classes\Favorite.cs" />
@@ -107,6 +109,9 @@
     </Compile>
     <Compile Include="UI\MultiInputWindow.xaml.cs">
       <DependentUpon>MultiInputWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\NetworkToolsWindow.xaml.cs">
+      <DependentUpon>NetworkToolsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\NewConfigurationWindow.xaml.cs">
       <DependentUpon>NewConfigurationWindow.xaml</DependentUpon>
@@ -232,6 +237,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\MultiInputWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\NetworkToolsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
